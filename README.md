@@ -134,3 +134,25 @@ resource "azurerm_resource_group" "rgnew" {
 #terraform import azurerm_resource_group.rgnew /subscriptions/c5bf1a3e-246a-4960-a860-9d42699c8a9e/resourceGroups/SALES
 #it will import code and we can check in state file or modify again make plan/apply command
 ---------------------------------------------
+how to move terraform tfstate file from local machine to azure storage/container
+terraform {
+  backend "azurerm" {
+    resource_group_name  = "it"
+    storage_account_name = "storagetf0505"
+    container_name       = "containertf0505"
+    key                  = "terraform.tfstate"
+  }
+}
+ # run terrafor init command
+ Migration Steps (moving state from local to Azure Storage)
+Create the storage account + container (you already have those).
+
+Add the backend block above to your Terraform config.
+
+Run:
+
+powershell
+terraform init
+Terraform will detect the local state and ask if you want to migrate it to the new backend.
+
+Confirm, and your state file will be uploaded to Azure Blob Storage.
